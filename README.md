@@ -2,6 +2,11 @@
 
 مرحبًا بك في **Bot‑Quran**، بوت Discord مخصص لختمة القرآن الكريم خلال شهر رمضان، مع نظام تنبيهات أذان مكة، وصفحات القرآن، والتنبيهات حسب المدينة .
 
+Welcome to **Bot-Quran**, a Discord bot dedicated to completing the Holy Quran during the month of Ramadan, with a system of Makkah Adhan alerts, Quran pages, and alerts according to the city.
+
+<img width="100" height="100" alt="تصميم بدون عنوان (1)" src="https://github.com/user-attachments/assets/50b4da3b-496c-425f-ba33-00f708ef0501" />
+<img width="180" height="180" alt="Discord-logo" src="https://github.com/user-attachments/assets/7d19b097-a1a6-424d-9bde-c0196b08151b" />
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/56f3c0ca-6e59-4896-a1ca-2718de3d11ea" 
        width="200" 
@@ -9,7 +14,12 @@
        alt="شعار البوت" />
 </p>
 
-<p
+<hr>
+<p align="center">
+<b>Add To Server Discord</b> : https://quran-bot.netlify.app 
+</p>
+
+<p align="center"
     <img alt="npm" src="https://img.shields.io/badge/-NPM-CB3837?style=flat-square&logo=npm&logoColor=white" />
       <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=white" />
           <img alt="Nodejs" src="https://img.shields.io/badge/-Nodejs-43853d?style=flat-square&logo=Node.js&logoColor=white" />
@@ -18,10 +28,6 @@
 
 </p>
 
-<hr>
-<p align="center">
-<b>Add To Server Discord</b> : https://quran-bot.netlify.app 
-</p>
 <p align="center">
 لاتنسونا من دعواتكم 💠
 </p>
