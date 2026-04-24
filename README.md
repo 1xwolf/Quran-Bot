@@ -4,8 +4,7 @@
 
 Welcome to **Bot-Quran**, a Discord bot dedicated to completing the Holy Quran during the month of Ramadan, with a system of Makkah Adhan alerts, Quran pages, and alerts according to the city.
 
-<img width="100" height="100" alt="تصميم بدون عنوان (1)" src="https://github.com/user-attachments/assets/50b4da3b-496c-425f-ba33-00f708ef0501" />
-<img width="180" height="180" alt="Discord-logo" src="https://github.com/user-attachments/assets/7d19b097-a1a6-424d-9bde-c0196b08151b" />
+
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/56f3c0ca-6e59-4896-a1ca-2718de3d11ea" 
