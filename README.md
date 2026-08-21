@@ -1,83 +1,149 @@
-# 🕋 Bot Quran — بوت ختمة القرآن الكريم
+# 🕋 Bot Quran | Holy Quran Completion Bot
 
-مرحبًا بك في **Bot‑Quran**، بوت Discord مخصص لختمة القرآن الكريم خلال شهر رمضان، مع نظام تنبيهات أذان مكة، وصفحات القرآن، والتنبيهات حسب المدينة .
-
-Welcome to **Bot-Quran**, a Discord bot dedicated to completing the Holy Quran during the month of Ramadan, with a system of Makkah Adhan alerts, Quran pages, and alerts according to the city.
 
 
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/56f3c0ca-6e59-4896-a1ca-2718de3d11ea" 
-       width="200" 
-       height="200" 
-       alt="شعار البوت" />
-</p>
-
-<hr>
-<p align="center">
-<b>Add To Server Discord</b> : https://quran-bot.netlify.app 
-</p>
-
-<p align="center"
-    <img alt="npm" src="https://img.shields.io/badge/-NPM-CB3837?style=flat-square&logo=npm&logoColor=white" />
-      <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=white" />
-          <img alt="Nodejs" src="https://img.shields.io/badge/-Nodejs-43853d?style=flat-square&logo=Node.js&logoColor=white" />
-          <img width="20" height="20" alt="discord" src="https://github.com/user-attachments/assets/a9042e9f-566a-4743-b02c-d8b5dbe1af42" />
-
-
+  <img src="https://github.com/user-attachments/assets/56f3c0ca-6e59-4896-a1ca-2718de3d11ea"
+       width="200"
+       height="200"
+       alt="Bot Quran Logo" />
 </p>
 
 <p align="center">
-لاتنسونا من دعواتكم 💠
+  A free and open-source Discord bot designed to help communities complete the Holy Quran during Ramadan.
+  <br>
+  Includes Makkah Adhan alerts, Quran pages, personalized prayer notifications, and an interactive control panel.
 </p>
 
-<p align="center">( البوت مفتوح المصدر ومجاني لانرجو منكم الا الدعاء فقط 🤲).</p>
+<p align="center">
+  <a href="https://quran-bot.netlify.app">
+    <strong>➜ Add Bot to Discord</strong>
+  </a>
+</p>
 
+<p align="center">
+  <img alt="NPM" src="https://img.shields.io/badge/NPM-CB3837?style=flat-square&logo=npm&logoColor=white" />
+  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
+  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white" />
+  <img alt="Discord.js" src="https://img.shields.io/badge/Discord.js-v14-5865F2?style=flat-square&logo=discord&logoColor=white" />
+</p>
 
+---
 
+## Features
 
+### Makkah Adhan Notifications
 
-### 🕌 **تنبيهات أذان مكة**
-- عدّاد حي للصلاة القادمة
-- تحديث تلقائي كل دقيقة
+* Live countdown to the next prayer.
+* Automatically updates every minute.
+* Displays Makkah prayer times.
 
-### 📖 **ختمة القرآن الكريم**
-- إرسال صفحات القرآن تلقائيًا بعد كل أذان
-- دعم التعويضات
-- إرسال الصفحات كل 4 صفحات في رسالة واحدة
-- منشن رول الختمة
+### Holy Quran Completion
 
-### 🌍 **تنبيهات أذان شخصية**
-- اختيار الدولة → المدينة
-- إنشاء روم خاص لكل مستخدم
-- إرسال مواقيت الصلاة اليومية
-- تنبيه عند دخول وقت الصلاة
+* Automatically sends Quran pages after each Adhan.
+* Supports compensation for missed pages.
+* Sends **4 Quran pages per message**.
+* Mentions the designated Quran completion role.
 
-### ⚙️ **لوحة تحكم كاملة**
-- أزرار تفعيل الختمة
-- أزرار تفعيل الأذان الشخصي
-- أزرار تفعيل أذان مكة
+### Personalized Prayer Notifications
 
-#
+* Select a country and city.
+* Creates a dedicated channel for each user.
+* Sends daily prayer times.
+* Notifies users when prayer time begins.
 
+### Interactive Control Panel
 
-# ⚙️ المتطلبات
+* Enable or disable Quran completion.
+* Enable or disable personalized Adhan notifications.
+* Enable or disable Makkah Adhan notifications.
+* Simple button-based controls.
 
-- Node.js 18+
-- Discord.js v14
-- axios
-- node-cron
-- canvas
-- fs / path
-- مكتبة fetch
+---
 
+## Requirements
 
-# 2) تعديل ملف config.json
+Before running the bot, make sure you have:
 
+* [Node.js](https://nodejs.org/) **18+**
+* Discord.js **v14**
+* Axios
+* Node-Cron
+* Canvas
+* Fetch
+* File System (`fs`)
+* Path
 
-- token = التوكن الخاص بالبوت 
-- clientId = رقم الايدي الخاص بالبوت
-- guildId = ايدي السيرفر الي تبي تضع فيه البوت
+---
 
-# 3) تشغيل البوت
-- node index.js
+## Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/USERNAME/REPOSITORY.git
+cd REPOSITORY
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure `config.json`
+
+Create or edit the `config.json` file and add your Discord bot information:
+
+```json
+{
+  "token": "YOUR_BOT_TOKEN",
+  "clientId": "YOUR_CLIENT_ID",
+  "guildId": "YOUR_GUILD_ID"
+}
+```
+
+| Configuration | Description                                                |
+| ------------- | ---------------------------------------------------------- |
+| `token`       | Your Discord bot token                                     |
+| `clientId`    | Your Discord application/client ID                         |
+| `guildId`     | The ID of the Discord server where you want to use the bot |
+
+> **Important:** Never share your bot token publicly or commit it to GitHub.
+
+### 4. Start the Bot
+
+```bash
+node index.js
+```
+
+---
+
+## 🔗 Add the Bot
+
+<p align="center">
+  <a href="https://quran-bot.netlify.app">
+    <img src="https://img.shields.io/badge/Add%20to%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Add Bot to Discord" />
+  </a>
+</p>
+
+---
+
+## 📜 License
+
+Bot Quran is a **free and open-source project**.
+
+Feel free to use, modify, and improve the project.
+
+---
+
+## 🤲 Support
+
+This project is completely free and open source.
+
+**We only ask you to remember us in your prayers. 🤲**
+
+<p align="center">
+  Made with ❤️ for the Holy Quran
+</p>
