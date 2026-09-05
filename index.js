@@ -1,7 +1,3 @@
-//=========================
-//1) المتطلبات (require)
-//=========================
-
 const {
   Client,
   GatewayIntentBits,
@@ -23,11 +19,6 @@ const fs = require("fs");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const fetch = require("node-fetch");
-
-
-// =========================
-// قوائم المدن لكل دولة
-// =========================
 
 const citiesByCountry = {
   "Saudi Arabia": [
@@ -110,10 +101,6 @@ const citiesByCountry = {
 };
 
 
-//========================
-// 2) إعداد العميل (client)
-//=========================
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -141,9 +128,6 @@ client.once("ready", () => {
   schedulePersonalAdhan();
 });
 
-// =========================
-// نظام الصلاحيات
-// =========================
 function isGuildOwner(interaction) {
   return interaction.guild.ownerId === interaction.user.id;
 }
@@ -161,23 +145,10 @@ function hasPermission(interaction) {
   return isGuildOwner(interaction) || isAdmin(interaction);
 }
 
-// =========================
-// تخزين بيانات السيرفر
-// =========================
-const guildSettings = new Map();       // { quranChannelId, currentPage }
-const userPrayerSettings = new Map();  // { city, channelId }
+const guildSettings = new Map();       
+const userPrayerSettings = new Map();  
 
 
-
-
-///=========================
-//5) الأدوات (Utility Functions)
-///=========================
-
-
-// =========================
-// دوال إرسال وتعديل آمنة
-// =========================
 
 async function safeSend(channel, data) {
   if (!channel) return null;
@@ -201,10 +172,6 @@ async function safeEdit(message, data) {
 }
 
 
-
-
-//دالة التحقق الذكي
-
 async function isRealCity(city) {
   const url = `https://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix=${encodeURIComponent(city)}&limit=1`;
 
@@ -225,8 +192,6 @@ async function isRealCity(city) {
 }
 
 
-//5.1 — معالجة صور صفحات القرآن
-
 async function getPageWithWhiteBackground(pageNumber) {
   const filePath = path.join(config.quranPagesFolder, `${pageNumber}.png`);
   if (!fs.existsSync(filePath)) return null;
@@ -242,9 +207,6 @@ async function getPageWithWhiteBackground(pageNumber) {
   return canvas.toBuffer("image/png");
 }
 
-
-
-//5.2 — أوقات أذان مكة
 
 async function getMakkahPrayerTimes() {
   try {
@@ -276,9 +238,6 @@ async function getMakkahPrayerTimes() {
   }
 }
 
-
-
-//5.3 — معرفة اليوم من رمضان
 
 async function getHijriDateText() {
   try {
@@ -332,8 +291,6 @@ async function getRamadanDayIfAny() {
 }
 
 
-//5.4 — أسماء الصلوات بالعربي
-
 function getArabicPrayerName(key) {
   const map = {
     Fajr: "صلاة الفجر",
@@ -345,7 +302,6 @@ function getArabicPrayerName(key) {
   return map[key] || "إحدى الصلوات";
 }
 
-///5.5 — أوقات الصلاة حسب المدينة (للأذان الشخصي)
 
 async function getPrayerTimesByCity(city, country) {
   try {
@@ -385,8 +341,6 @@ async function getPrayerTimesByCity(city, country) {
   }
 }
 
-///دالة لتحويل الوقت من 24 إلى 12 ساعة بالعربي
-
 function convertToArabic12(time24) {
   let [hour, minute] = time24.split(":").map(Number);
 
@@ -413,7 +367,6 @@ function subtractMinutes(time, minutes) {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
-// دالة معرفة الصلاة القادمة
 function getNextPrayer(times, current) {
   const order = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
@@ -423,11 +376,9 @@ function getNextPrayer(times, current) {
     }
   }
 
-  // لو كل الصلوات فاتت → الصلاة القادمة فجر اليوم التالي
   return "Fajr";
 }
 
-// دالة حساب الوقت المتبقي للصلاة القادمة
 function getRemainingTime(now, target) {
   const [th, tm] = target.split(":").map(Number);
   const targetDate = new Date(now);
@@ -445,7 +396,6 @@ function getRemainingTime(now, target) {
   return { hours, minutes };
 }
 
-// دالة إنشاء Embed للعدّاد الحي
 function buildCountdownEmbed(nextPrayer, remaining, guildIcon) {
   return new EmbedBuilder()
     .setColor(0x1E90FF)
@@ -468,17 +418,8 @@ function buildCountdownEmbed(nextPrayer, remaining, guildIcon) {
     .setTimestamp();
 }
 
-// متغير لتخزين رسالة العدّاد الحي
 let liveCountdownMessage = null;
 
-// 🟦 دالة scheduleMakkahQuran معرّفة في القسم 7 أدناه
-
-
-
-
-///=========================
-///8) جدولة الأذان الشخصي لكل عضو
-///=========================
 
 function schedulePersonalAdhan() {
   cron.schedule("* * * * *", async () => {
@@ -531,20 +472,10 @@ function schedulePersonalAdhan() {
 
 
 
-
-////=========================
-//6) Event واحد للأوامر والأزرار
-///=========================
-
-
 client.on("interactionCreate", async (interaction) => {
 
-  // =========================
-  // أوامر السلاش
-  // =========================
-  if (interaction.isChatInputCommand()) {
 
-    //🟦 أولًا: كيف تختبر أن الـ API شغال؟
+  if (interaction.isChatInputCommand()) {
 
 if (interaction.commandName === "test-api") {
   await interaction.deferReply({ flags: 64 }); // 
@@ -564,8 +495,6 @@ if (interaction.commandName === "test-api") {
   });
 }
 
-
-//🟩 ثانيًا: كيف تعرف هل نحن الآن في وقت صلاة؟
 
 if (interaction.commandName === "what-prayer-now") {
   const times = await getMakkahPrayerTimes();
@@ -593,8 +522,6 @@ if (interaction.commandName === "what-prayer-now") {
 }
 
 
-//🟨 ثالثًا: كيف تعرف اليوم من رمضان؟
-
 if (interaction.commandName === "ramadan-day") {
   const day = await getRamadanDayIfAny();
 
@@ -604,8 +531,6 @@ if (interaction.commandName === "ramadan-day") {
   });
 }
 
-
-//🟧 رابعًا: كيف تعرف أوقات الصلاة اليوم؟
 
 if (interaction.commandName === "today-prayers") {
   await interaction.deferReply({ flags: 64 });
@@ -625,8 +550,6 @@ if (interaction.commandName === "today-prayers") {
 
 
 
-//🟦 خامسًا: كيف تعرف الصفحة الحالية في الختمة؟
-
 if (interaction.commandName === "current-page") {
   const settings = guildSettings.get(interaction.guild.id);
 
@@ -641,11 +564,7 @@ if (interaction.commandName === "current-page") {
 }
 
 
-// ============================================================
-// 🧪 أوامر الاختبار المؤقتة — احذفها بعد الانتهاء من الاختبار
-// ============================================================
 
-// /test-quran-now → يحاكي إرسال صفحات القرآن كأنه وقت صلاة الآن
 if (interaction.commandName === "test-quran-now") {
   if (!hasPermission(interaction)) {
     return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -671,7 +590,6 @@ if (interaction.commandName === "test-quran-now") {
     settings.currentPage + 3
   ];
 
-  // 1) المنشن + النص أولاً
   const hijriTest = await getHijriDateText();
   await safeSend(channel, {
     content:
@@ -681,7 +599,6 @@ if (interaction.commandName === "test-quran-now") {
       (hijriTest ? `🌙 ${hijriTest}` : "")
   });
 
-  // 2) الصفحات الأربع في رسالة واحدة جنب بعض
   const pageFiles = [];
   for (const p of pages) {
     const buffer = await getPageWithWhiteBackground(p);
@@ -695,7 +612,6 @@ if (interaction.commandName === "test-quran-now") {
     await safeSend(channel, { files: pageFiles });
   }
 
-  // 3) الصورة فاصل في الآخر
   await safeSend(channel, {
     files: [{ attachment: "https://i.imgur.com/ou7luSN.png", name: "separator.png" }]
   });
@@ -708,7 +624,6 @@ if (interaction.commandName === "test-quran-now") {
 }
 
 
-// /test-adhan-dm → يرسل DM تجريبي لك كأنه تنبيه أذان
 if (interaction.commandName === "test-adhan-dm") {
   await interaction.deferReply({ flags: 64 });
 
@@ -723,7 +638,7 @@ if (interaction.commandName === "test-adhan-dm") {
     try {
       await interaction.user.send(msg);
       sent++;
-      await new Promise(resolve => setTimeout(resolve, 500)); // فترة بسيطة بين الرسائل
+      await new Promise(resolve => setTimeout(resolve, 500)); 
     } catch (e) {
       // فشل إرسال DM
     }
@@ -747,14 +662,6 @@ if (interaction.commandName === "test-adhan-dm") {
   );
 }
 
-// ============================================================
-// نهاية أوامر الاختبار
-// ============================================================
-
-
-//=======================
-// /set-makkah-reminder-channel
-//=======================
 
 
 if (interaction.commandName === "set-makkah-reminder-channel") {
@@ -793,11 +700,6 @@ if (interaction.commandName === "set-makkah-reminder-channel") {
 
 
 
-
-//=======================
-// /set-global-adhan-role
-//=======================
-
 if (interaction.commandName === "set-global-adhan-role") {
   if (!hasPermission(interaction)) {
     return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -815,9 +717,7 @@ if (interaction.commandName === "set-global-adhan-role") {
 }
 
 
-    // -------------------------
-    // /setup-panel
-    // -------------------------
+
     if (interaction.commandName === "setup-panel") {
       if (!hasPermission(interaction)) {
         return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -854,9 +754,6 @@ const row = new ActionRowBuilder().addComponents(
       return interaction.reply({ embeds: [embed], components: [row] });
     }
 
-    // -------------------------
-    // /set-quran-role
-    // -------------------------
     if (interaction.commandName === "set-quran-role") {
       if (!hasPermission(interaction)) {
         return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -872,9 +769,6 @@ const row = new ActionRowBuilder().addComponents(
       });
     }
 
-    // -------------------------
-    // /set-quran-channel
-    // -------------------------
     if (interaction.commandName === "set-quran-channel") {
       if (!hasPermission(interaction)) {
         return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -893,9 +787,7 @@ const row = new ActionRowBuilder().addComponents(
       });
     }
 
-    // -------------------------
-    // /test-quran-page
-    // -------------------------
+
     if (interaction.commandName === "test-quran-page") {
       if (!hasPermission(interaction)) {
         return interaction.reply({ content: "هذا الأمر للمالك أو الأدمن فقط.", flags: 64 });
@@ -913,14 +805,6 @@ const row = new ActionRowBuilder().addComponents(
 
       return interaction.reply({ content: "تم الإرسال.", flags: 64 });
     }
-
-    // -------------------------
-    // /catchup-pages
-    // -------------------------
-
-// =========================
-// /catchup-pages (نسخة مطوّرة)
-// =========================
 
 if (interaction.commandName === "catchup-pages") {
   if (!hasPermission(interaction)) {
@@ -944,7 +828,6 @@ if (interaction.commandName === "catchup-pages") {
     return interaction.editReply("اليوم ليس من رمضان.");
   }
 
-  // الصفحات المطلوبة حتى اليوم
   const requiredPages = ramadanDay * 20;
   const sentPages = settings.currentPage - 1;
   let pagesToSend = requiredPages - sentPages;
@@ -953,7 +836,6 @@ if (interaction.commandName === "catchup-pages") {
     return interaction.editReply("لا يوجد صفحات ناقصة للتعويض.");
   }
 
-  // جلب مواقيت مكة لمعرفة الصلاة القادمة
   const times = await getMakkahPrayerTimes();
   const now = new Date();
   const h = now.getHours().toString().padStart(2, "0");
@@ -963,7 +845,6 @@ if (interaction.commandName === "catchup-pages") {
 
   const role = interaction.guild.roles.cache.get(config.quranRoleId);
 
-  // تقسيم الصفحات إلى مجموعات من 4
   const allPages = [];
   for (let i = 0; i < pagesToSend; i++) {
     allPages.push(settings.currentPage + i);
@@ -971,16 +852,13 @@ if (interaction.commandName === "catchup-pages") {
 
   const groups = [];
   while (allPages.length > 0) {
-    groups.push(allPages.splice(0, 4)); // كل 4 صفحات في مجموعة
-  }
+    groups.push(allPages.splice(0, 4)); 
 
-  // إرسال كل مجموعة
   const hijriCatchup = await getHijriDateText();
   for (const group of groups) {
     const first = group[0];
     const last = group[group.length - 1];
 
-    // 1) المنشن + النص أولاً
     await safeSend(channel, {
       content:
         (role ? `<@&${role.id}> ` : "") +
@@ -989,7 +867,6 @@ if (interaction.commandName === "catchup-pages") {
         (hijriCatchup ? `🌙 ${hijriCatchup}` : "")
     });
 
-    // 2) الصفحات الأربع في رسالة واحدة جنب بعض
     const files = [];
     for (const p of group) {
       const buffer = await getPageWithWhiteBackground(p);
@@ -999,13 +876,11 @@ if (interaction.commandName === "catchup-pages") {
       await safeSend(channel, { files });
     }
 
-    // 3) الصورة فاصل في الآخر
     await safeSend(channel, {
       files: [{ attachment: "https://i.imgur.com/ou7luSN.png", name: "separator.png" }]
     });
   }
 
-  // تحديث الصفحة الحالية
   settings.currentPage += pagesToSend;
 
   return interaction.editReply("تم إرسال التعويضات بنجاح.");
@@ -1015,13 +890,8 @@ if (interaction.commandName === "catchup-pages") {
   
 
 
-
-    // =========================
-// القوائم المنسدلة (اختيار الدولة)
-// =========================
 if (interaction.isStringSelectMenu()) {
 
-  // اختيار الدولة
   if (interaction.customId === "select_country") {
     const country = interaction.values[0];
 
@@ -1031,10 +901,8 @@ if (interaction.isStringSelectMenu()) {
       channelId: null
     });
 
-    // جلب المدن الخاصة بالدولة
     const cities = citiesByCountry[country];
 
-    // حماية: لو الدولة ما لها مدن
     const funnyReplies = [
       "البوت جلس يدور توقيت الصلاة وبالنهاية قال أنا أستقيل… ما لقيت شي",
       "حاولت أجيب لك وقت الصلاة… بس الـ API سوّى نفسه ميت",
@@ -1052,7 +920,6 @@ if (interaction.isStringSelectMenu()) {
       });
     }
 
-    // إنشاء قائمة المدن
     const cityMenu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId("select_city")
@@ -1070,10 +937,8 @@ if (interaction.isStringSelectMenu()) {
 }
 
 
-
-  // اختيار المدينة
   if (interaction.customId === "select_city") {
-    await interaction.deferUpdate(); // مهم جدًا لمنع Unknown interaction
+    await interaction.deferUpdate(); 
 
     const city = interaction.values[0];
     const userId = interaction.user.id;
@@ -1086,7 +951,6 @@ if (interaction.isStringSelectMenu()) {
       channelId: null
     });
 
-    // إنشاء روم خاص
     const privateChannel = await interaction.guild.channels.create({
       name: `تذكير الأذان 🕌 -${city}`,
       type: ChannelType.GuildText,
@@ -1102,7 +966,6 @@ if (interaction.isStringSelectMenu()) {
       channelId: privateChannel.id
     });
 
-// زر حذف التذكير
 const deleteButton = new ActionRowBuilder().addComponents(
   new ButtonBuilder()
     .setCustomId("delete_personal_adhan")
@@ -1110,14 +973,12 @@ const deleteButton = new ActionRowBuilder().addComponents(
     .setStyle(ButtonStyle.Secondary)
 );
 
-// إرسال رسالة فيها الزر داخل الروم
 await safeSend(privateChannel, {
   content: `🕌 تم إعداد تذكير الأذان لمدينة **${city}**\n\n📩 ستصلك تنبيهات الأذان (قبل 10 دقائق، قبل 5 دقائق، وعند الأذان) عبر **الرسائل الخاصة** مباشرة.\n\nيمكنك حذف هذا الإعداد من الزر أدناه:`,
   components: [deleteButton]
 });
 
 
-    // جلب مواقيت الصلاة
     const times = await getPrayerTimesByCity(city, settings.country);
 
     if (times) {
@@ -1133,24 +994,13 @@ await safeSend(privateChannel, {
       await safeSend(privateChannel, "⚠️ تعذر جلب مواقيت الصلاة لهذه المدينة.");
     }
 
-    // تعديل رسالة القائمة
     return interaction.editReply({
       content: `تم إنشاء روم تنبيهات الأذان لمدينة **${city}**`,
       components: []
     });
   }
 
-
-  // =========================
-  // أزرار البوت
-  // =========================
   if (interaction.isButton()) {
-
-
-  // #0
-    // -------------------------
-    // زر حذف تذكير الاذان داخل الروم
-    // -------------------------
 
 if (interaction.customId === "delete_personal_adhan") {
   const userId = interaction.user.id;
@@ -1182,13 +1032,6 @@ if (interaction.customId === "delete_personal_adhan") {
 
 
 
-
-    // #0
-    // -------------------------
-    // تفعيل تنبيه أذان مكة
-    // -------------------------
-
-    // زر: تفعيل تنبيه أذان مكة
 if (interaction.customId === "activate_global_adhan") {
 
   const roleId = config.globalAdhanRoleId;
@@ -1218,13 +1061,6 @@ if (interaction.customId === "activate_global_adhan") {
 }
 
 
-    
-
-
-// #1
-    // -------------------------
-    // زر: تفعيل ختمة القرآن
-    // -------------------------
 if (interaction.customId === "activate_quran") {
   const role = interaction.guild.roles.cache.get(config.quranRoleId);
   if (!role) {
@@ -1252,14 +1088,9 @@ if (interaction.customId === "activate_quran") {
   });
 }
 
-//#2 
 
-    // -------------------------
-    // زر: تفعيل الأذان الشخصي
-    // -------------------------
 if (interaction.customId === "activate_personal_adhan") {
 
-  // حماية: منع تكرار الرومات
   const oldSettings = userPrayerSettings.get(interaction.user.id);
 
   if (oldSettings) {
@@ -1275,7 +1106,6 @@ if (interaction.customId === "activate_personal_adhan") {
     }
   }
 
-  // قائمة الدول العربية
 const arabCountries = [
   { label: "السعودية", value: "Saudi Arabia" },
   
@@ -1317,9 +1147,6 @@ const arabCountries = [
 });
 
 
-///=========================
-// 7) جدولة أذان مكة + إرسال صفحات الختمة
-///=========================
 
 async function scheduleMakkahQuran() {
   cron.schedule("* * * * *", async () => {
@@ -1337,9 +1164,7 @@ async function scheduleMakkahQuran() {
 
     if (!reminderChannel) return;
 
-    // ============================
-    // 🔵 تحديث العدّاد الحي كل دقيقة
-    // ============================
+
     const nextPrayer = getNextPrayer(times, current);
     const remaining = getRemainingTime(now, times[nextPrayer]);
 
@@ -1359,9 +1184,7 @@ async function scheduleMakkahQuran() {
       });
     }
 
-    // ============================
-    // 🔔 أوقات التذكير
-    // ============================
+
     const reminderTimes = {
       "30": {
         Fajr: subtractMinutes(times.Fajr, 30),
@@ -1386,7 +1209,6 @@ async function scheduleMakkahQuran() {
       }
     };
 
-    // 30 / 10 / 5 دقائق
     for (const min of ["30", "10", "5"]) {
       const match = Object.entries(reminderTimes[min]).find(([_, t]) => t === current);
       if (match) {
@@ -1397,9 +1219,7 @@ async function scheduleMakkahQuran() {
       }
     }
 
-    // ============================
-    // 🕌 عند الأذان
-    // ============================
+
     const nowAdhan = Object.entries(times).find(([_, t]) => t === current);
     if (nowAdhan) {
       const [prayer] = nowAdhan;
@@ -1409,7 +1229,6 @@ async function scheduleMakkahQuran() {
           حان الآن وقت **${getArabicPrayerName(prayer)}** بتوقيت مكة المكرمة`
       );
 
-      // تحديث العدّاد للصلاة التالية
       const nextPrayerAfter = getNextPrayer(times, current);
       const remainingAfter = getRemainingTime(now, times[nextPrayerAfter]);
 
@@ -1430,17 +1249,11 @@ async function scheduleMakkahQuran() {
       }
     }
 
-    // ============================
-    // 📌 رسالة يومية بعد الفجر بدقيقة
-    // ============================
+
     if (current === subtractMinutes(times.Fajr, -1)) {
       reminderChannel.send({ embeds: [makkahTimesEmbed(times)] });
     }
   
-
-    // ============================
-    // 📖 نظام إرسال صفحات الختمة
-    // ============================
 
 const match = Object.entries(times).find(([_, t]) => t === current);
 if (!match) return;
@@ -1476,7 +1289,6 @@ for (const [guildId, settings] of guildSettings.entries()) {
       (hijriDate ? `🌙 ${hijriDate}` : "")
   });
 
-  // 2) الصفحات الأربع في رسالة واحدة جنب بعض
   const pageFiles = [];
   for (const p of pages) {
     const buffer = await getPageWithWhiteBackground(p);
@@ -1486,18 +1298,15 @@ for (const [guildId, settings] of guildSettings.entries()) {
     await safeSend(channel, { files: pageFiles });
   }
 
-  // 3) الصورة فاصل في الآخر
   await safeSend(channel, {
     files: [{ attachment: "https://i.imgur.com/ou7luSN.png", name: "separator.png" }]
   });
 
-  // تحديث الصفحة
   settings.currentPage += 4;
   if (settings.currentPage > 604) {
     settings.currentPage = 1;
   }
 
-  // التقدم اليومي
   const pagesSentToday = ((settings.currentPage - 1) % 20);
 
   if (pagesSentToday === 0 && ramadanDay !== null) {
@@ -1520,8 +1329,5 @@ for (const [guildId, settings] of guildSettings.entries()) {
  });
 }
 
-///=========================
-//9) login Token تشغيل البوت
-//=========================
 
 client.login(config.token);
